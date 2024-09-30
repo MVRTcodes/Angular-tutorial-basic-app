@@ -14,6 +14,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
         class="listing-photo" 
         [src]="housingLocation?.photo"
         alt="Exterior photo of {{ housingLocation?.name }}"
+        crossorigin
         />
         <section class="listing-description">
           <h2 class="listing-heading">{{housingLocation?.name}}</h2>
@@ -31,13 +32,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
           <h2 class="section-heading">Apply now to live here</h2>
           <form [formGroup]="applyForm" (submit)="submitApplication()">
             <label for="first-name">First Name</label>
-            <input id="first-name" type="text" formControlName="firstName">
+            <input id="first-name" type="text" formControlName="firstName"/>
 
             <label for="last-name">Last Name</label>
-            <input id="last-name" type="text" formControlName="lastName">
+            <input id="last-name" type="text" formControlName="lastName"/>
 
             <label for="email">Email</label>
-            <input id="email" type="email" formControlName="email">
+            <input id="email" type="email" formControlName="email"/>
             <button type="submit" class="primary">Apply now</button>
           </form>
         </section>
@@ -61,7 +62,11 @@ export class DetailsComponent {
 
   constructor(){
     const housingLocationId = Number(this.route.snapshot.params['id']);
-    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+    console.log(housingLocationId);
+    this.housingService.getHousingLocationById(housingLocationId).then(housingLocation=>{
+      this.housingLocation = housingLocation;
+      console.log(this.housingLocation);
+    });
   }
 
   submitApplication() {
